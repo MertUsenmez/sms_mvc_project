@@ -1,0 +1,32 @@
+﻿@model IEnumerable<sms_mvc_project.Models.Match>
+
+@{
+    ViewBag.Title = "ManageMatching";
+}
+
+<h2>AllStudents</h2>
+
+<p>
+    @Html.ActionLink("StartMatching", "ManageMatching")
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentFriendId)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentFriendId)
+        </td>
+
+    </tr>
+    }
+
+</table>

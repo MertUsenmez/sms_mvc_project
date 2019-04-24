@@ -1,0 +1,60 @@
+﻿
+@model sms_mvc_project.Models.Student
+
+@{
+    ViewBag.Title = "SelectInterestArea";
+}
+
+<h2>StartMatching</h2>
+
+@{
+    SelectListItem[] liste = new SelectListItem[9]
+    {
+new SelectListItem(){Text="Software Engineering", Value="Software Engineering"},
+new SelectListItem(){Text="Cyber Security", Value="Cyber Security"},
+new SelectListItem(){Text="Machine Learning", Value="Machine Learning"},
+new SelectListItem(){Text="AI", Value="AI"},
+new SelectListItem(){Text="Database Systems", Value="Database Systems"},
+new SelectListItem(){Text="Big Data", Value="Big Data"},
+new SelectListItem(){Text="Web Applications", Value="Web Applications"},
+new SelectListItem(){Text="Mobile Applications", Value="Mobile Applications"},
+new SelectListItem(){Text="Project Management", Value="Project Management"}
+    };
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Student</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.InterestAreas, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.DropDownList("list1", liste)
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+
