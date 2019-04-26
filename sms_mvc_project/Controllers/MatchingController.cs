@@ -97,11 +97,13 @@ namespace sms_mvc_project.Controllers
         }
 
 
-        public void Algorithm()
+       public void Algorithm()
         {
             List<Student> students = studentCollection.AsQueryable<Student>().ToList();
 
-            Dictionary<ObjectId, string> studentDictionary = new Dictionary<ObjectId, string>();
+            Dictionary<ObjectId, List<InterestAreas>> studentDictionary = new Dictionary<ObjectId, List<InterestAreas>>();
+
+            int count = 0;
 
             foreach (var item in students)
             {
@@ -111,27 +113,38 @@ namespace sms_mvc_project.Controllers
                 }
             }
 
-            foreach(KeyValuePair<ObjectId,string> stu in studentDictionary.ToList())
+            foreach (KeyValuePair<ObjectId, List<InterestAreas>> stu in studentDictionary.ToList())
             {
                 ObjectId id = stu.Key;
-                string interest = stu.Value;
+                var interest = stu.Value;
                 studentDictionary.Remove(stu.Key);
 
-                foreach (KeyValuePair<ObjectId,string> stuFriend in studentDictionary.ToList())
+                foreach (KeyValuePair<ObjectId, List<InterestAreas>> stuFriend in studentDictionary.ToList())
                 {
-                    // if( )
+                    
                     ObjectId idFriend = stuFriend.Key;
-                    string interestFriend = stuFriend.Value;
+                    var interestFriend = stuFriend.Value;
 
-                    if (interest == interestFriend)
+                    var student = studentCollection.AsQueryable<Student>().SingleOrDefault(x => x._id == id);
+                    var studentFriend = studentCollection.AsQueryable<Student>().SingleOrDefault(x => x._id == idFriend);
+
+                    bool isDublicate = false;
+
+                    for (int i=0; i<student.Mathces.Count; i++)
+                    {
+                        if(idFriend == student.Mathces[i].StudentFriendId)
+                        {
+                            isDublicate = true;
+                        }
+                    }
+
+                                         // return false and interest te sıkıntı var
+                    if ((student.InterestAreas[count] == studentFriend.InterestAreas[count]) && !isDublicate)
                     {
                         studentDictionary.Remove(stuFriend.Key);
 
                         try
                         {
-                            var student = studentCollection.AsQueryable<Student>().SingleOrDefault(x => x._id == id);
-                            var studentFriend = studentCollection.AsQueryable<Student>().SingleOrDefault(x => x._id == idFriend);
-
                             Student stuZZ = new Student();
                             stuZZ = student;
                             Student stuZZ2 = new Student();
@@ -152,25 +165,16 @@ namespace sms_mvc_project.Controllers
                             var updateFriend = Builders<Student>.Update.Set("CountOfMatch", b + 1).Set("Mathces", stuZZ2.Mathces);
                             var resultFriend = studentCollection.UpdateOne(filterFriend, updateFriend);
 
-
-
-
-                            /*
-                            Match match = new Match();
-                            match.StudentFriendId = idFriend;
-                            matchCollection.InsertOne(match);                        
-                            */
-
                         }
                         catch (Exception ex)
                         {
                             string a = ex.Message;
                         }
-
-                    }
-                    
+                    }                 
                 }
             }
+            // Remove all keys and values from Dictionary
+            studentDictionary.Clear();
         }
     }
 }
