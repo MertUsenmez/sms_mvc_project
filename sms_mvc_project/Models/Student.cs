@@ -10,23 +10,6 @@ namespace sms_mvc_project.Models
     [BsonIgnoreExtraElements]
     public class Student
     {
-        public Student(){
-        }
-        public Student(ObjectId _id, String StudentName, String StudentSurname, String StudentEmail, String StudentPassword, String DOB,
-            String CreateOn, String ModifiedOn, String Class, String DepartmentName, String University){
-            this._id = _id;
-            this.StudentName = StudentName;
-            this.StudentSurname = StudentSurname;
-            this.StudentEmail = StudentEmail;
-            this.StudentPassword = StudentPassword;
-            this.DOB = DOB;
-            this.CreateOn = CreateOn;
-            this.ModifiedOn = ModifiedOn;
-            this.Class = Class;
-            this.DepartmentName = DepartmentName;
-            this.University = University;
-        }
-
         [BsonId]
         [BsonElement("_id")]
         public ObjectId _id { get; set; }
@@ -43,7 +26,6 @@ namespace sms_mvc_project.Models
         [BsonElement("StudentPassword")]
         public String StudentPassword { get; set; }
 
-        //must be Date("<YYYY-mm-dd>")
         [BsonElement("DOB")]
         public String DOB { get; set; }
 
@@ -79,7 +61,7 @@ namespace sms_mvc_project.Models
         public bool MatchingStatus { get; set; }
 
         [BsonElement("InterestAreas")]
-        public string InterestAreas { get; set; }
+        public List<InterestAreas> InterestAreas { get; set; }
 
         //must be limit 3 matches
         [BsonElement("Mathces")]
