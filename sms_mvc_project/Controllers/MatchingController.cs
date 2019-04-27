@@ -129,15 +129,16 @@ namespace sms_mvc_project.Controllers
                     var studentFriend = studentCollection.AsQueryable<Student>().SingleOrDefault(x => x._id == idFriend);
 
                     bool isDublicate = false;
-
-                    for (int i=0; i<student.Mathces.Count; i++)
+                    if(student.CountOfMatch != 0)
                     {
-                        if(idFriend == student.Mathces[i].StudentFriendId)
+                        for (int i=0; i<student.Mathces.Count; i++)
                         {
-                            isDublicate = true;
+                            if(idFriend == student.Mathces[i].StudentFriendId)
+                            {
+                                isDublicate = true;
+                            }
                         }
                     }
-
                                          // return false and interest te sıkıntı var
                     if ((student.InterestAreas[count] == studentFriend.InterestAreas[count]) && !isDublicate)
                     {
